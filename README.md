@@ -1,0 +1,2 @@
+# Artificial-Neural-Network-and-Genetic-Algorithm-for-Adaptive-Urban-Traffic-Signal-Control-in-SUMO-
+This project uses a neuro-evolutionary model combining Genetic Algorithm (GA) and Artificial Neural Network (ANN) to optimize traffic signal timing in SUMO using real traffic data. The GA trains the ANN to minimize vehicle wait time, achieving a 79.61% reduction in congestion compared to fixed-time signals.
