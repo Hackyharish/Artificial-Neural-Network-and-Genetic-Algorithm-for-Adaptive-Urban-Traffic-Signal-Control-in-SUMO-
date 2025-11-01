@@ -1,64 +1,66 @@
 # 🚦 Artificial Neural Network for Adaptive Urban Traffic Signal Control in SUMO
 
-**Authors:** Harish R, Namitha Madhu  
-*Department of Electrical and Electronics, Amrita Vishwa Vidyapeetham, Coimbatore, India*
+**Authors:** Harish R, Namitha Madhu
+*Department of Electrical and Electronics Engineering, Amrita Vishwa Vidyapeetham, Coimbatore, India*
 
 ---
 
 ## 📄 Abstract
 
-Urban cities face major consequences from traffic congestion and long wait times at traffic joints. Conventionally used fixed-time traffic signals are proving to be non-effective as vehicles and people waste a significant amount of time waiting at signals.
+Urban cities face major consequences from traffic congestion and long waiting times at intersections. The conventionally used fixed-time traffic signals are inefficient since they cannot adapt dynamically to fluctuating traffic conditions.
 
-This paper adopts a **neuro-evolutionary approach**, combining a **Genetic Algorithm (GA)** and an **Artificial Neural Network (ANN)**, to determine the optimal signal time based on real-time traffic presence.
+This work presents a **Neuro-Evolutionary approach** that combines a **Genetic Algorithm (GA)** and an **Artificial Neural Network (ANN)** to optimize signal timings based on real-time traffic density.
 
-- The **ANN** model acts as the controller (decision-maker) during the simulation.
-- The **GA** optimizes (trains) the ANN model for better accuracy by adjusting its weights to reduce vehicle waiting time.
+* The **ANN** acts as the controller, dynamically allocating green times.
+* The **GA** optimizes ANN weights to minimize total waiting time and delay.
 
-The simulation was implemented and analyzed using the **Simulation of Urban Mobility (SUMO)** environment, using real-time data from a street in Bremen, Germany. When compared to the baseline fixed-time controller, the optimized GA-ANN model demonstrated a **79.31% improvement in the waiting time** of vehicles and lower average traffic congestion.
+The system is implemented in **Python** and simulated using **SUMO (Simulation of Urban Mobility)**.
+Real-world data from a traffic junction in **Bremen, Germany**, was used for validation. The proposed GA-ANN system demonstrated a **79.31% improvement** in total waiting time over conventional fixed-time control.
 
-**Index Terms:** *Neuroevolution, Genetic Algorithm, Artificial Neural Network, Traffic Signal Control, SUMO, Optimization, Intelligent Transportation Systems*
+**Keywords:** Neuroevolution, Genetic Algorithm, Artificial Neural Network, Traffic Signal Optimization, SUMO, Intelligent Transportation Systems
 
 ---
 
-## 🚦 Simulation Environment & Methodology
+## 🧭 Methodology Overview
 
-### Simulation Tool
-The control logic and optimization algorithm were implemented in **Python**, interfacing with the **SUMO** microscopic traffic simulator using the **TraCI** library.
+### 1️⃣ Simulation Environment
 
-### Location & Dataset
-The simulation scenario is based on real-world traffic data from the **"CN+ Vehicular Dataset"** for a traffic light-regulated intersection in **Bremen, Germany**.
+* **Tool:** SUMO (Simulation of Urban Mobility)
+* **Interface:** Python – TraCI API
+* **Dataset:** CN+ Vehicular Dataset (Bremen, Germany)
 
 ![Traffic signal location Bremen, Germany](map.png)
 
-### Methodology
-The system is designed to find the optimal green light duration. The ANN functions as the real-time decision-making model, while the GA optimizes the ANN's weights to enhance signal efficiency and reduce congestion.
+---
 
-The methodology is organized into four main steps:
+### 2️⃣ Flowchart
 
-1. Simulation Environment Setup  
-2. GA-ANN Model Design  
-3. Simulation Execution (Baseline vs. GA-ANN)  
-4. Performance Metrics Collection  
-
-#### Process Flowchart  
-This diagram illustrates the training loop, where the GA iteratively evaluates generations of ANNs in SUMO to find the best-performing controller.
+The process flow of the proposed GA-ANN-based optimization:
 
 ![Flow diagram](Flow_diagram.png)
 
 ---
 
-## ⚙️ GA-ANN Model Architecture
+## ⚙️ GA–ANN Model Design
 
-### 1. Artificial Neural Network (ANN)
-The ANN is a single-layer, feed-forward network that predicts the optimal green phase duration.
+### Artificial Neural Network (ANN)
 
-- **Input Nodes:** 3 (corresponding to the number of halting vehicles on monitored lanes)  
-- **Hidden Layer:** 10 nodes (sigmoid activation function)  
-- **Output Layer:** 1 node (sigmoid activation function)  
-- **Output Scaling:** Output value (0–1) scaled to green phase duration between 10s and 60s.  
+| Parameter    | Description                           |
+| ------------ | ------------------------------------- |
+| Inputs       | Number of halting vehicles in 3 lanes |
+| Hidden Layer | 10 neurons (sigmoid activation)       |
+| Output       | Green time (scaled between 10s – 60s) |
 
-### 2. Genetic Algorithm (GA)
-The GA optimizes the weights and biases of the ANN controller. The goal is to evolve a population of ANN controllers over multiple generations to minimize total vehicle waiting time.
+### Genetic Algorithm (GA)
+
+| Parameter       | Value                      |
+| --------------- | -------------------------- |
+| Population Size | 50                         |
+| Generations     | 100                        |
+| Crossover Rate  | 0.8                        |
+| Mutation Rate   | 0.05                       |
+| Selection       | Tournament (k=3)           |
+| Elitism         | Top 1 individual preserved |
 
 **Fitness Function:**
 
@@ -66,63 +68,164 @@ The GA optimizes the weights and biases of the ANN controller. The goal is to ev
 Fitness = \frac{1}{1 + W_{total}}
 ```
 
-**GA Parameters:**
+Where `W_total` = total vehicle waiting time per cycle.
 
-| Parameter | Value |
-| :--- | :--- |
-| Population Size | 50 |
-| Number of Generations | 100 |
-| Selection Method | Tournament Selection (k=3) |
-| Elitism Count | 1 (Best individual) |
-| Crossover Rate | 0.8 |
-| Crossover Method | Single-Point |
-| Mutation Rate | 0.05 |
-| Mutation Method | Gaussian Noise (μ=0, τ=0.2) |
+---
+
+## 🧩 System Architecture
+
+```
+📁 Project Folder
+├── train_model.py
+├── test_model.py
+├── config/
+│   ├── CN+ Dataset.sumocfg
+│   ├── network.net.xml
+│   ├── routes.rou.xml
+│   └── additional.add.xml
+├── results/
+│   ├── best_ann_weights.npy
+│   ├── ga_convergence_plot.png
+│   ├── test_performance_comparison.png
+│   ├── wait_time_boxplot.png
+│   ├── wait_time_histogram.png
+│   ├── tripinfo_baseline.xml
+│   └── tripinfo_ga_run.xml
+└── README.md
+```
+
+---
+
+## 🧠 How to Run the Code
+
+### ⚙️ 1. Prerequisites
+
+#### Install SUMO
+
+* Download from: [https://www.eclipse.org/sumo](https://www.eclipse.org/sumo)
+* Add to your system PATH:
+
+```bash
+setx SUMO_HOME "C:\Program Files (x86)\Eclipse\Sumo"
+```
+
+#### Install Python Libraries
+
+```bash
+pip install numpy matplotlib
+```
+
+#### Verify SUMO
+
+```bash
+echo %SUMO_HOME%
+```
+
+Ensure it prints your SUMO installation path.
+
+---
+
+### 🧩 2. Training the Model
+
+**File:** `train_model.py`
+
+This script trains the ANN using GA to minimize vehicle waiting time.
+
+#### ✅ Steps:
+
+1. Update your SUMO configuration path:
+
+   ```python
+   CONFIG_FILE = r"D:\Path\to\CN+ Dataset\SUMO Format\Infrastructure Files\CN+ Dataset.sumocfg"
+   ```
+2. Run the script:
+
+   ```bash
+   python train_model.py
+   ```
+3. The script will:
+
+   * Run a baseline SUMO simulation
+   * Evolve ANN weights with GA
+   * Save the best ANN as `best_ann_weights.npy`
+   * Plot convergence graphs and comparisons
+
+#### 📁 Output Files
+
+| File                                            | Description            |
+| ----------------------------------------------- | ---------------------- |
+| `best_ann_weights.npy`                          | Optimized ANN weights  |
+| `ga_convergence_plot.png`                       | GA fitness evolution   |
+| `summary_bar_chart.png`                         | Performance comparison |
+| `tripinfo_baseline.xml` / `tripinfo_ga_run.xml` | SUMO trip statistics   |
+
+---
+
+### 🧪 3. Testing the Model
+
+**File:** `test_model.py`
+
+This evaluates the optimized ANN controller in a real-time SUMO simulation.
+
+#### ✅ Steps:
+
+1. Update SUMO test config path:
+
+   ```python
+   TEST_CONFIG_FILE = r"C:\Path\to\CN+ Dataset\SUMO Format\Infrastructure Files\CN+ Dataset.sumocfg"
+   ```
+2. Run with GUI enabled:
+
+   ```bash
+   python test_model.py
+   ```
+3. To speed up (without GUI):
+
+   ```bash
+   python test_model.py --nogui
+   ```
+
+#### 🧾 Output:
+
+* SUMO visual simulation
+* Metrics: average waiting time, travel time, time loss
+* Plots generated in `/results`
+
+---
+
+### ⚠️ Notes
+
+* Ensure `train_model.py`, `test_model.py`, and SUMO config files are in the same directory.
+* Use **raw strings (r"path")** for Windows paths.
+* Close SUMO GUI before re-running to avoid TraCI port conflicts.
 
 ---
 
 ## 📊 Results and Discussion
 
-The optimized GA-ANN controller was validated on an unseen test scenario from the dataset and compared against a fixed-time baseline controller.
-
-### Key Performance Indicators
-
-| Metric | Fixed-Time Controller | GA-ANN Controller | Improvement |
-| :--- | :---: | :---: | :---: |
-| Total Waiting Time | 20015 s | 4141 s | 79.31% ↓ |
-| Total Time Loss | 27998.98 s | 10483.07 s | 62.55% ↓ |
-| Average Travel Time | 69.80 s | 40.49 s | 41.99% ↓ |
-| Vehicle Throughput | 590 | 598 | +1.35% ↑ |
-
-![Performance Comparison](test_performance_comparison.png)
+| Metric             | Fixed-Time | GA–ANN     | Improvement  |
+| ------------------ | ---------- | ---------- | ------------ |
+| Total Waiting Time | 20015 s    | 4141 s     | **79.31% ↓** |
+| Total Time Loss    | 27998.98 s | 10483.07 s | **62.55% ↓** |
+| Avg. Travel Time   | 69.80 s    | 40.49 s    | **41.99% ↓** |
+| Vehicle Throughput | 590        | 598        | **↑ 1.35%**  |
 
 ---
 
-### GA Training Convergence
-The GA convergence plot shows the waiting time of the best individual (blue) rapidly decreasing within the first 20 generations, surpassing the baseline controller (red dashed).
+### 🔁 GA Convergence
 
 ![GA Convergence](ga_convergence_plot.png)
 
----
-
-### Dynamic Queue Length
-The baseline controller (red) shows significant spikes in queue length, whereas the GA-ANN controller (green) maintains a much lower and stable queue.
+### 🚗 Queue Length
 
 ![Queue Length](test_queue_length.png)
 
----
+### ⏱ Wait Time Distributions
 
-### Distribution of Vehicle Wait Times
-- **Baseline (Red):** Many vehicles experience moderate to high waiting times.  
-- **GA-ANN (Green):** Most vehicles fall into the minimal waiting time bracket.
-
-![Wait Time Distribution](test_time_distributions.png)  
+![Wait Time Distribution](test_time_distributions.png)
 ![Box Plot](test_wait_time_boxplot.png)
 
----
-
-### Travel Time and Time Loss Distributions
-The GA-ANN model successfully shifts the entire distribution of travel times and time losses to the left, reducing long delays.
+### 🧍‍♂️ Travel Time & Time Loss
 
 ![Travel Time and Time Loss](test_wait_time_histogram.png)
 
@@ -130,15 +233,38 @@ The GA-ANN model successfully shifts the entire distribution of travel times and
 
 ## 🏁 Conclusion
 
-This work successfully demonstrated an adaptive traffic light controller by optimizing an ANN with a GA. The controller, trained and validated within the SUMO environment using real-world data from Bremen, Germany, achieved a **79.31% reduction in total waiting time** compared to a traditional fixed-time controller. This superior performance was also reflected in reduced average travel times, lower total time loss, and more effective queue management.
+This project developed an **adaptive traffic signal controller** using a hybrid **Genetic Algorithm–Artificial Neural Network** model.
+It achieved a **79.31% reduction** in total waiting time and significant improvements in throughput and average travel time.
+The approach proves that **bio-inspired optimization** can effectively enhance traffic management in urban intersections.
 
 ---
 
-## 🚀 Future Work
+## 🚀 Future Enhancements
 
-While the current model shows promising results for an isolated intersection, future research avenues include:
+1. **Multi-Intersection Control** for networked traffic signals.
+2. Integration of **real-time traffic cameras** or **IoT sensors**.
+3. Comparison with **Reinforcement Learning (DQN, PPO)** controllers.
+4. **Multi-Objective GA** for optimizing fuel efficiency and emissions.
 
-1. **Network-Level Control:** Extending the approach from a single intersection to a coordinated network of multiple intersections.  
-2. **Richer Input Data:** Enhancing the ANN's input features to include time of day, vehicle density, and average speed.  
-3. **Algorithm Comparison:** Benchmarking the GA-ANN approach against other modern control techniques, particularly Deep Reinforcement Learning.  
-4. **Multi-Objective Optimization:** Adapting the GA's fitness function to be multi-objective, simultaneously optimizing for waiting time, throughput, and emissions.  
+---
+
+## 🧩 Citation
+
+If you use this work, please cite as:
+
+> Harish R, Namitha Madhu, *“Artificial Neural Network for Adaptive Urban Traffic Signal Control in SUMO,”* Department of Electrical and Electronics Engineering, Amrita Vishwa Vidyapeetham, Coimbatore, India, 2025.
+
+---
+
+## 📧 Contact
+
+**Harish R**
+Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India
+Email: [harish@example.com](mailto:harishr.vnr@gmail.com)
+LinkedIn: [https://www.linkedin.com/in/harish-r](https://www.linkedin.com/in/harish-r-8b68a333b/)
+GitHub: [https://github.com/harish-r](https://github.com/harish-r)
+**Namitha Madhu**
+Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India
+Email: [harish@example.com](mailto:cb.en.u4eee23149@cb.students.amrita.edu)
+LinkedIn: [https://www.linkedin.com/in/harish-r](https://www.linkedin.com/in/namitha-madhu-4934a8276/)
+GitHub: [https://github.com/harish-r](https://github.com/harish-r)
