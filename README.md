@@ -1,21 +1,24 @@
 # 🚦 Artificial Neural Network for Adaptive Urban Traffic Signal Control in SUMO
 
-**Authors:** Harish R, Namitha Madhu
-*Department of Electrical and Electronics Engineering, Amrita Vishwa Vidyapeetham, Coimbatore, India*
+## 👩‍💻👨‍💻 Authors
+
+**Harish R** & **Namitha Madhu**  
+🏫 Department of Electrical and Electronics Engineering,  
+Amrita Vishwa Vidyapeetham, Coimbatore, India
+
 
 ---
 
 ## 📄 Abstract
 
-Urban cities face major consequences from traffic congestion and long waiting times at intersections. The conventionally used fixed-time traffic signals are inefficient since they cannot adapt dynamically to fluctuating traffic conditions.
+Urban cities face major consequences from traffic congestion and long waiting times at intersections. Fixed-time traffic signals are inefficient since they cannot adapt dynamically to fluctuating traffic conditions.
 
-This work presents a **Neuro-Evolutionary approach** that combines a **Genetic Algorithm (GA)** and an **Artificial Neural Network (ANN)** to optimize signal timings based on real-time traffic density.
+This work presents a **Neuro-Evolutionary approach** combining a **Genetic Algorithm (GA)** and an **Artificial Neural Network (ANN)** to optimize signal timings based on real-time traffic density.
 
-* The **ANN** acts as the controller, dynamically allocating green times.
-* The **GA** optimizes ANN weights to minimize total waiting time and delay.
+* **ANN**: Controller that dynamically allocates green times.
+* **GA**: Optimizes ANN weights to minimize total waiting time and delay.
 
-The system is implemented in **Python** and simulated using **SUMO (Simulation of Urban Mobility)**.
-Real-world data from a traffic junction in **Bremen, Germany**, was used for validation. The proposed GA-ANN system demonstrated a **79.31% improvement** in total waiting time over conventional fixed-time control.
+Implemented in **Python** and simulated using **SUMO (Simulation of Urban Mobility)**. Real-world data from a traffic junction in **Bremen, Germany** was used for validation. The GA-ANN system demonstrated a **79.31% improvement** in total waiting time over conventional fixed-time control.
 
 **Keywords:** Neuroevolution, Genetic Algorithm, Artificial Neural Network, Traffic Signal Optimization, SUMO, Intelligent Transportation Systems
 
@@ -25,7 +28,7 @@ Real-world data from a traffic junction in **Bremen, Germany**, was used for val
 
 ### 1️⃣ Simulation Environment
 
-* **Tool:** SUMO (Simulation of Urban Mobility)
+* **Tool:** SUMO
 * **Interface:** Python – TraCI API
 * **Dataset:** CN+ Vehicular Dataset (Bremen, Germany)
 
@@ -34,8 +37,6 @@ Real-world data from a traffic junction in **Bremen, Germany**, was used for val
 ---
 
 ### 2️⃣ Flowchart
-
-The process flow of the proposed GA-ANN-based optimization:
 
 ![Flow diagram](Flow_diagram.png)
 
@@ -65,7 +66,7 @@ The process flow of the proposed GA-ANN-based optimization:
 **Fitness Function:**
 
 ```latex
-Fitness = \frac{1}{1 + W_{total}}
+Fitness = 1 / (1 + W_total)
 ```
 
 Where `W_total` = total vehicle waiting time per cycle.
@@ -96,112 +97,116 @@ Where `W_total` = total vehicle waiting time per cycle.
 
 ---
 
+## 🧩 CN+ Dataset
+
+The **CN+ Dataset** consists of real-world traffic data from **Bremen, Germany**. It includes network topology, traffic routes, and additional configuration files required for SUMO simulations.
+
+### Folder Structure
+
+**1. Infrastructure Files**
+
+| File                  | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| `network.net.xml`     | SUMO network file defining lanes, edges, nodes |
+| `CN+ Dataset.sumocfg` | Main SUMO configuration file                   |
+| `additional.add.xml`  | Additional configurations like traffic lights  |
+
+**2. Scenario Files**
+
+Contains **49 route files**, representing traffic flows on different days.
+
+---
+
+### 🔧 Updating Paths
+
+1. **In Python code (`train_model.py` / `test_model.py`)**:
+
+```python
+CONFIG_FILE = r"D:\Path\to\CN+ Dataset\Infrastructure Files\CN+ Dataset.sumocfg"
+TEST_CONFIG_FILE = r"D:\Path\to\CN+ Dataset\Infrastructure Files\CN+ Dataset.sumocfg"
+```
+
+2. **In SUMO config file (`CN+ Dataset.sumocfg`)**:
+
+```xml
+<input>
+    <net-file value="D:/Path/to/CN+ Dataset/Infrastructure Files/network.net.xml"/>
+    <route-files value="D:/Path/to/CN+ Dataset/Scenario Files/routes.rou.xml"/>
+    <additional-files value="D:/Path/to/CN+ Dataset/Infrastructure Files/additional.add.xml"/>
+</input>
+```
+
+---
+
 ## 🧠 How to Run the Code
 
-### ⚙️ 1. Prerequisites
+### ⚙️ Prerequisites
 
-#### Install SUMO
-
-* Download from: [https://www.eclipse.org/sumo](https://www.eclipse.org/sumo)
-* Add to your system PATH:
+* **SUMO:** [Download SUMO](https://www.eclipse.org/sumo)
+* Add to system PATH:
 
 ```bash
 setx SUMO_HOME "C:\Program Files (x86)\Eclipse\Sumo"
 ```
 
-#### Install Python Libraries
+* **Python Libraries:**
 
 ```bash
 pip install numpy matplotlib
 ```
 
-#### Verify SUMO
+* Verify SUMO installation:
 
 ```bash
 echo %SUMO_HOME%
 ```
 
-Ensure it prints your SUMO installation path.
-
 ---
 
-### 🧩 2. Training the Model
+### 🧩 Training
 
 **File:** `train_model.py`
 
-This script trains the ANN using GA to minimize vehicle waiting time.
+1. Update SUMO configuration path.
+2. Run:
 
-#### ✅ Steps:
+```bash
+python Train.py
+```
 
-1. Update your SUMO configuration path:
-
-   ```python
-   CONFIG_FILE = r"D:\Path\to\CN+ Dataset\SUMO Format\Infrastructure Files\CN+ Dataset.sumocfg"
-   ```
-2. Run the script:
-
-   ```bash
-   python Train.py
-   ```
-3. The script will:
-
-   * Run a baseline SUMO simulation
-   * Evolve ANN weights with GA
-   * Save the best ANN as `best_ann_weights.npy`
-   * Plot convergence graphs and comparisons
-
-#### 📁 Output Files
-
-| File                                            | Description            |
-| ----------------------------------------------- | ---------------------- |
-| `best_ann_weights.npy`                          | Optimized ANN weights  |
-| `ga_convergence_plot.png`                       | GA fitness evolution   |
-| `summary_bar_chart.png`                         | Performance comparison |
-| `tripinfo_baseline.xml` / `tripinfo_ga_run.xml` | SUMO trip statistics   |
+* Output: `best_ann_weights.npy`, convergence plots, trip info XMLs.
 
 ---
 
-### 🧪 3. Testing the Model
+### 🧪 Testing
 
 **File:** `test_model.py`
 
-This evaluates the optimized ANN controller in a real-time SUMO simulation.
+* GUI:
 
-#### ✅ Steps:
+```bash
+python Test.py
+```
 
-1. Update SUMO test config path:
+* Without GUI:
 
-   ```python
-   TEST_CONFIG_FILE = r"C:\Path\to\CN+ Dataset\SUMO Format\Infrastructure Files\CN+ Dataset.sumocfg"
-   ```
-2. Run with GUI enabled:
+```bash
+python Test.py --nogui
+```
 
-   ```bash
-   python Test.py
-   ```
-3. To speed up (without GUI):
-
-   ```bash
-   python Test.py --nogui
-   ```
-
-#### 🧾 Output:
-
-* SUMO visual simulation
-* Metrics: average waiting time, travel time, time loss
-* Plots generated in `/results`
+* Output: visual simulation and plots in `/results`
 
 ---
 
 ### ⚠️ Notes
 
-* Ensure `train_model.py`, `test_model.py`, and SUMO config files are in the same directory.
+* Keep Python scripts and SUMO config files in the same directory.
 * Use **raw strings (r"path")** for Windows paths.
-* Close SUMO GUI before re-running to avoid TraCI port conflicts.
+* Close SUMO GUI before rerunning.
 
 ---
 
-## 📊 Results and Discussion
+## 📊 Results
 
 | Metric             | Fixed-Time | GA–ANN     | Improvement  |
 | ------------------ | ---------- | ---------- | ------------ |
@@ -209,8 +214,6 @@ This evaluates the optimized ANN controller in a real-time SUMO simulation.
 | Total Time Loss    | 27998.98 s | 10483.07 s | **62.55% ↓** |
 | Avg. Travel Time   | 69.80 s    | 40.49 s    | **41.99% ↓** |
 | Vehicle Throughput | 590        | 598        | **↑ 1.35%**  |
-
----
 
 ### 🔁 GA Convergence
 
@@ -220,7 +223,7 @@ This evaluates the optimized ANN controller in a real-time SUMO simulation.
 
 ![Queue Length](test_queue_length.png)
 
-### ⏱ Wait Time Distributions
+### ⏱ Wait Time Distribution
 
 ![Wait Time Distribution](test_time_distributions.png)
 ![Box Plot](test_wait_time_boxplot.png)
@@ -233,24 +236,25 @@ This evaluates the optimized ANN controller in a real-time SUMO simulation.
 
 ## 🏁 Conclusion
 
-This project developed an **adaptive traffic signal controller** using a hybrid **Genetic Algorithm–Artificial Neural Network** model.
-It achieved a **79.31% reduction** in total waiting time and significant improvements in throughput and average travel time.
-The approach proves that **bio-inspired optimization** can effectively enhance traffic management in urban intersections.
+Adaptive traffic signal controller using GA–ANN achieved:
+
+* **79.31% reduction** in total waiting time
+* Improved throughput and average travel time
+
+Bio-inspired optimization effectively enhances urban traffic management.
 
 ---
 
 ## 🚀 Future Enhancements
 
-1. **Multi-Intersection Control** for networked traffic signals.
-2. Integration of **real-time traffic cameras** or **IoT sensors**.
-3. Comparison with **Reinforcement Learning (DQN, PPO)** controllers.
-4. **Multi-Objective GA** for optimizing fuel efficiency and emissions.
+1. Multi-intersection control
+2. Integration with real-time traffic cameras or IoT sensors
+3. Comparison with Reinforcement Learning controllers
+4. Multi-objective GA for fuel efficiency and emissions
 
 ---
 
 ## 🧩 Citation
-
-If you use this work, please cite as:
 
 > Harish R, Namitha Madhu, *“Artificial Neural Network for Adaptive Urban Traffic Signal Control in SUMO,”* Department of Electrical and Electronics Engineering, Amrita Vishwa Vidyapeetham, Coimbatore, India, 2025.
 
@@ -258,17 +262,15 @@ If you use this work, please cite as:
 
 ## 📧 Contact
 
-## 👩‍💻👨‍💻 Authors
-
 **Harish R**  
-🏫 Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
-📧 Email: [harishr.vnr@gmail.com](mailto:harishr.vnr@gmail.com)  
-🔗 LinkedIn: [https://www.linkedin.com/in/harish-r-8b68a333b/](https://www.linkedin.com/in/harish-r-8b68a333b/)  
-💻 GitHub: [https://github.com/Hackyharish](https://github.com/Hackyharish)  
+🏫 Dept. of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
+📧 [harishr.vnr@gmail.com](mailto:harishr.vnr@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/harish-r-8b68a333b/)  
+💻 [GitHub](https://github.com/Hackyharish)  
 
 **Namitha Madhu**  
-🏫 Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
-📧 Email: [cb.en.u4eee23149@cb.students.amrita.edu](mailto:cb.en.u4eee23149@cb.students.amrita.edu)  
-🔗 LinkedIn: [https://www.linkedin.com/in/namitha-madhu-4934a8276/](https://www.linkedin.com/in/namitha-madhu-4934a8276/)  
-💻 GitHub: [https://github.com/namitha-madhu](https://github.com/namitha-madhu)  
+🏫 Dept. of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
+📧 [cb.en.u4eee23149@cb.students.amrita.edu](mailto:cb.en.u4eee23149@cb.students.amrita.edu)  
+🔗 [LinkedIn](https://www.linkedin.com/in/namitha-madhu-4934a8276/)  
+💻 [GitHub](https://github.com/namitha-madhu)
 
