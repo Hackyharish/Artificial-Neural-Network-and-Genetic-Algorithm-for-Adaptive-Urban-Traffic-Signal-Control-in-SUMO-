@@ -141,7 +141,7 @@ This script trains the ANN using GA to minimize vehicle waiting time.
 2. Run the script:
 
    ```bash
-   python train_model.py
+   python Train.py
    ```
 3. The script will:
 
@@ -177,12 +177,12 @@ This evaluates the optimized ANN controller in a real-time SUMO simulation.
 2. Run with GUI enabled:
 
    ```bash
-   python test_model.py
+   python Test.py
    ```
 3. To speed up (without GUI):
 
    ```bash
-   python test_model.py --nogui
+   python Test.py --nogui
    ```
 
 #### 🧾 Output:
