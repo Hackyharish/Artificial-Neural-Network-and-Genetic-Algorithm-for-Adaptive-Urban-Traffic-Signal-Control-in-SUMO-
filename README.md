@@ -272,5 +272,5 @@ Bio-inspired optimization effectively enhances urban traffic management.
 🏫 Dept. of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
 📧 [cb.en.u4eee23149@cb.students.amrita.edu](mailto:cb.en.u4eee23149@cb.students.amrita.edu)  
 🔗 [LinkedIn](https://www.linkedin.com/in/namitha-madhu-4934a8276/)  
-💻 [GitHub](https://github.com/namitha-madhu)
+💻 [GitHub](https://github.com/NamithaMadhu18)
 
