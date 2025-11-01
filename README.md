@@ -258,13 +258,17 @@ If you use this work, please cite as:
 
 ## 📧 Contact
 
-**Harish R**
-Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India
-Email: [harish@example.com](mailto:harishr.vnr@gmail.com)
-LinkedIn: [https://www.linkedin.com/in/harish-r](https://www.linkedin.com/in/harish-r-8b68a333b/)
-GitHub: [https://github.com/harish-r](https://github.com/harish-r)
-**Namitha Madhu**
-Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India
-Email: [harish@example.com](mailto:cb.en.u4eee23149@cb.students.amrita.edu)
-LinkedIn: [https://www.linkedin.com/in/harish-r](https://www.linkedin.com/in/namitha-madhu-4934a8276/)
-GitHub: [https://github.com/harish-r](https://github.com/harish-r)
+## 👩‍💻👨‍💻 Authors
+
+**Harish R**  
+🏫 Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
+📧 Email: [harishr.vnr@gmail.com](mailto:harishr.vnr@gmail.com)  
+🔗 LinkedIn: [https://www.linkedin.com/in/harish-r-8b68a333b/](https://www.linkedin.com/in/harish-r-8b68a333b/)  
+💻 GitHub: [https://github.com/Hackyharish](https://github.com/Hackyharish)  
+
+**Namitha Madhu**  
+🏫 Department of EEE, Amrita Vishwa Vidyapeetham, Coimbatore, India  
+📧 Email: [cb.en.u4eee23149@cb.students.amrita.edu](mailto:cb.en.u4eee23149@cb.students.amrita.edu)  
+🔗 LinkedIn: [https://www.linkedin.com/in/namitha-madhu-4934a8276/](https://www.linkedin.com/in/namitha-madhu-4934a8276/)  
+💻 GitHub: [https://github.com/namitha-madhu](https://github.com/namitha-madhu)  
+
